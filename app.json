@@ -1,0 +1,7 @@
+{
+  "name": "Mock Http Server",
+  "description": "A Http Server for counting callbacks using Express 4",
+  "repository": "https://github.com/manasdpradhan/http-mocker",
+  "keywords": ["node", "express", "static"],
+  "image": "heroku/http-mocker"
+}
