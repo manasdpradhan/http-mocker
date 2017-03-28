@@ -16,7 +16,11 @@ app.post("/v2/partner/:partnerId/callback/fail", function(req, res) {
 });
 
 app.post("/v2/partner/:partnerId/callback/resetCounter", function(req, res) {
-  i = 0;
+  for (var key in partnerCounts) {
+  if (partnerCounts.hasOwnProperty(key)) {
+    partnerCounts[key] = 0;
+  }
+}
   res.writeHead(200, {'Content-type': 'application/json'});
   res.end();
 });
