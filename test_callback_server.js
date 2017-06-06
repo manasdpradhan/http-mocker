@@ -3,10 +3,13 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var DBHelper = require('./db');
 
 var partnerCounts = {};
 
 var failingPartners = [];
+
+var db = new DBHelper();
 
 app.use(bodyParser.json());
 
@@ -32,15 +35,17 @@ app.post("/v2/partner/:partnerId/callback", function(req, res) {
     return;
   }
 
-  if (!partnerCounts[req.params.partnerId]) {
-    partnerCounts[req.params.partnerId] = 0;
-  }
+  // if (!partnerCounts[req.params.partnerId]) {
+  //   partnerCounts[req.params.partnerId] = 0;
+  // }
+  db.updateProjectCount(req.params.partnerId);
   if (req.body.event && req.body.event.startsWith('connection')) {
-    console.log('request: ', req.url,
-        ', counter: ', ++partnerCounts[req.params.partnerId],
-        ', event: ', req.body.event,
-        ', connectionid: ', req.body.connection.id,
-        ', timestamp: ', req.body.timestamp);
+    // console.log('request: ', req.url,
+    //     ', counter: ', ++partnerCounts[req.params.partnerId],
+    //     ', event: ', req.body.event,
+    //     ', connectionid: ', req.body.connection.id,
+    //     ', timestamp: ', req.body.timestamp);
+    console.log(req.body.event + req.body.connection.id);
   } else {
     if (req.body.event && req.body.event.startsWith('stream')) {
       console.log('request: ', req.url,
@@ -56,6 +61,7 @@ app.post("/v2/partner/:partnerId/callback", function(req, res) {
 });
 
 app.get("/", function(req, res) {
+  result = db.getProjectCounts();
   res.writeHead(200, {'Content-type': 'application/json'});
   res.end(JSON.stringify(partnerCounts));
 });

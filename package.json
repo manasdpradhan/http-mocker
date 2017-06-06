@@ -12,10 +12,10 @@
     "start": "node test_callback_server.js"
   },
   "dependencies": {
+    "body-parser": "^1.17.1",
     "express": "4.14.1",
-    "body-parser": "^1.17.1"
+    "pg": "6.1.5"
   },
-
   "repository": {
     "type": "git",
     "url": "https://github.com/heroku/node-js-getting-started"
